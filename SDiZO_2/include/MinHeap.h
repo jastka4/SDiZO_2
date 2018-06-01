@@ -26,7 +26,7 @@ public:
 	int pop();
 	void push(int);
 	void remove(int);
-	size_t find(int);
+	bool find(int);
 	void display();
 	void displayTree();
 };

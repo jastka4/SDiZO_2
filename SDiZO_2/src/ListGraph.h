@@ -14,6 +14,7 @@ public:
 	void addEdge(int, int, int);
 	void removeEdge(int, int);
 	bool isEdge(int, int);
-	void primsAlgorithm() {}
+	int minKey(int[], bool[]);
+	void primsAlgorithm();
 	void dijkstrasAlgorithm(int, int);
 };

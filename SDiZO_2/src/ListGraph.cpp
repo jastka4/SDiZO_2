@@ -88,6 +88,70 @@ bool ListGraph::isEdge(int i, int j)
 		return false;
 }
 
+int ListGraph::minKey(int key[], bool mstSet[])
+{
+	int min = INT_MAX, min_index;
+
+	for (size_t i = 0; i < vertexCount; i++)
+	{
+		if (mstSet[i] == false && key[i] < min)
+		{
+			min = key[i], min_index = i;
+		}
+	}
+
+	return min_index;
+}
+
+void ListGraph::primsAlgorithm() //fix it
+{
+	int *MST = new int[vertexCount];
+	int *key = new int[vertexCount];
+	int totalCost = 0;
+
+	MinHeap *vertices = new MinHeap();
+
+	for (size_t i = 0; i < vertexCount; i++)
+	{
+		key[i] = INT_MAX;
+		MST[i] = -1;
+		vertices->push(i);
+	}
+
+	key[0] = 0;
+
+	Node* node;
+	while (vertices->getSize() != 0)
+	{
+		int i = vertices->pop();
+		node = adjacencyList[i];
+
+		while (node)
+		{
+			if (vertices->find(node->vertex) && node->weight < key[node->vertex])
+			{
+				key[node->vertex] = node->weight;
+				MST[node->vertex] = i;
+				std::cout << "Marked: [" << node->vertex << "] = " << i << std::endl;
+			}
+
+			node = node->next;
+		}
+	}
+
+	std::cout << "\n\nMinimal Spanning Tree for adjacency list representation"
+		<< "\n----------------------------------------------------------" << std::endl;
+	for (size_t i = 1; i < vertexCount; i++)
+	{
+		std::cout << "Edge " << MST[i] << " -> " << i << " weight: " << key[i] << std::endl;
+		totalCost += key[i];
+	}
+	std::cout << "\nTotal cost: " << totalCost << std::endl;
+
+	delete[] MST;
+	delete[] key;
+}
+
 void ListGraph::dijkstrasAlgorithm(int source, int destination)
 {
 	if (destination >= vertexCount)
@@ -122,7 +186,6 @@ void ListGraph::dijkstrasAlgorithm(int source, int destination)
 			{
 				distance[node->vertex] = distance[i] + node->weight;
 				markedVertices[node->vertex] = i;
-				std::cout << "Marked: [" << node->vertex << "] = " << i << std::endl;
 			}
 
 			node = node->next;
@@ -147,4 +210,7 @@ void ListGraph::dijkstrasAlgorithm(int source, int destination)
 	}
 	
 	std::cout << "\nTotal cost: " << distance[destination] << std::endl;
+
+	delete[] distance;
+	delete[] markedVertices;
 }

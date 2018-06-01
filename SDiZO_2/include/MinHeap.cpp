@@ -130,15 +130,15 @@ void MinHeap::heapify(size_t index)
 	}
 }
 
-size_t MinHeap::find(int value)
+bool MinHeap::find(int value)
 {
 	for (size_t i = 0; i < size; i++)
 	{
 		if (heap[i] == value)
-			return i;
+			return true;
 	}
 
-	return -1;
+	return false;
 }
 
 void MinHeap::display()

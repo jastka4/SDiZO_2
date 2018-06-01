@@ -32,6 +32,7 @@ int main()
 	graphL->addEdge(5, 3, 1);
 
 	graphL->print();
+	graphL->primsAlgorithm();
 	graphL->dijkstrasAlgorithm(0, 5);
 	std::cin.get();
 
