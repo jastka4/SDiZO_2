@@ -18,7 +18,6 @@ public:
 	virtual void print() = 0;
 	virtual void addEdge(int, int, int) = 0;
 	virtual void removeEdge(int, int) = 0;
-	virtual bool isEdge(int, int) = 0;
 	virtual void primsAlgorithm() = 0;
 	virtual void dijkstrasAlgorithm(int, int) = 0;
 };

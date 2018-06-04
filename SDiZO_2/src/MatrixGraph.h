@@ -8,7 +8,7 @@ class MatrixGraph :
 {
 	int **incidenceMatrix;
 
-	int minKey(int key[], bool mstSet[]);
+	int minKey(int*, bool*);
 
 public:
 	MatrixGraph(int, bool);
@@ -17,9 +17,6 @@ public:
 	void print();
 	void addEdge(int, int, int);
 	void removeEdge(int, int);
-	bool isEdge(int, int);
 	void primsAlgorithm();
-	int minDistance(int*, bool*);
 	void dijkstrasAlgorithm(int, int);
-	int isMarked(int, int*, int);
 };

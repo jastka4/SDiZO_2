@@ -63,25 +63,12 @@ void MatrixGraph::removeEdge(int i, int j)
 	// else throws error
 }
 
-bool MatrixGraph::isEdge(int i, int j)
-{
-	if (i >= 0 && i < vertexCount && j > 0 && j < vertexCount)
-	{
-		if (incidenceMatrix[i][j] != 0)
-			return true;
-		else
-			return false;
-	}
-	else
-		return false;
-}
-
-int MatrixGraph::minKey(int key[], bool mstSet[])
+int MatrixGraph::minKey(int *key, bool *visited)
 {
 	int min = INT_MAX, min_index;
 
 	for (size_t i = 0; i < vertexCount; i++)
-		if (mstSet[i] == false && key[i] < min)
+		if (visited[i] == false && key[i] < min)
 			min = key[i], min_index = i;
 
 	return min_index;
@@ -91,13 +78,13 @@ void MatrixGraph::primsAlgorithm()
 {
 	int *MST = new int[vertexCount];
 	int *key = new int[vertexCount];
-	bool *mstSet = new bool[vertexCount];
+	bool *visited = new bool[vertexCount];
 	int totalCost = 0;
 
 	for (size_t i = 0; i < vertexCount; i++)
 	{
 		key[i] = INT_MAX;
-		mstSet[i] = false;
+		visited[i] = false;
 	}
 
 	key[0] = 0;
@@ -105,13 +92,13 @@ void MatrixGraph::primsAlgorithm()
 
 	for (size_t count = 0; count < vertexCount - 1; count++)
 	{
-		int j = minKey(key, mstSet);
+		int j = minKey(key, visited);
 
-		mstSet[j] = true;
+		visited[j] = true;
 
 		for (size_t i = 0; i < vertexCount; i++)
 		{
-			if (incidenceMatrix[j][i] && mstSet[i] == false && incidenceMatrix[j][i] < key[i])
+			if (incidenceMatrix[j][i] && visited[i] == false && incidenceMatrix[j][i] < key[i])
 			{
 				MST[i] = j;
 				key[i] = incidenceMatrix[j][i];
@@ -119,8 +106,8 @@ void MatrixGraph::primsAlgorithm()
 		}
 	}
 
-	std::cout << "\n\nMinimal Spanning Tree for incidence matrix representation"
-			  << "\n----------------------------------------------------------" << std::endl;
+	std::cout << "\n\nMinimal Spanning Tree for incidence matrix representation (Prims's algorithm)"
+			  << "\n------------------------------------------------------------------------------" << std::endl;
 	for (size_t i = 1; i < vertexCount; i++)
 	{
 		std::cout << "Edge " << MST[i] << " -> " << i << " weight: " << incidenceMatrix[i][MST[i]] << std::endl;
@@ -128,9 +115,9 @@ void MatrixGraph::primsAlgorithm()
 	}
 	std::cout << "\nTotal cost: " << totalCost << std::endl;
 
-	delete MST;
-	delete key;
-	delete mstSet;
+	delete[] MST;
+	delete[] key;
+	delete[] visited;
 }
 
 void MatrixGraph::dijkstrasAlgorithm(int source, int destination)
@@ -164,7 +151,6 @@ void MatrixGraph::dijkstrasAlgorithm(int source, int destination)
 			{
 				distance[j] = distance[i] + incidenceMatrix[i][j];
 				markedVertices[j] = i;
-				std::cout << "Marked: [" << j << "] = " << i << std::endl;
 			}
 		}
 	}
@@ -187,4 +173,7 @@ void MatrixGraph::dijkstrasAlgorithm(int source, int destination)
 	}
 
 	std::cout << "\nTotal cost: " << distance[destination] << std::endl;
+
+	delete[] markedVertices;
+	delete[] distance;
 }

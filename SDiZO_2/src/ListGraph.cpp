@@ -75,35 +75,7 @@ void ListGraph::removeEdge(int i, int j) //edit - fix
 	// else throws error
 }
 
-bool ListGraph::isEdge(int i, int j)
-{
-	if (i >= 0 && i < vertexCount && j > 0 && j < vertexCount)
-	{
-		if (adjacencyList[i][j].weight != 0)
-			return true;
-		else
-			return false;
-	}
-	else
-		return false;
-}
-
-int ListGraph::minKey(int key[], bool mstSet[])
-{
-	int min = INT_MAX, min_index;
-
-	for (size_t i = 0; i < vertexCount; i++)
-	{
-		if (mstSet[i] == false && key[i] < min)
-		{
-			min = key[i], min_index = i;
-		}
-	}
-
-	return min_index;
-}
-
-void ListGraph::primsAlgorithm() //fix it
+void ListGraph::primsAlgorithm()
 {
 	int *MST = new int[vertexCount];
 	int *key = new int[vertexCount];
@@ -132,15 +104,14 @@ void ListGraph::primsAlgorithm() //fix it
 			{
 				key[node->vertex] = node->weight;
 				MST[node->vertex] = i;
-				std::cout << "Marked: [" << node->vertex << "] = " << i << std::endl;
 			}
 
 			node = node->next;
 		}
 	}
 
-	std::cout << "\n\nMinimal Spanning Tree for adjacency list representation"
-		<< "\n----------------------------------------------------------" << std::endl;
+	std::cout << "\n\nMinimal Spanning Tree for adjacency list representation (Prim's algorithm)"
+		<< "\n---------------------------------------------------------------------------" << std::endl;
 	for (size_t i = 1; i < vertexCount; i++)
 	{
 		std::cout << "Edge " << MST[i] << " -> " << i << " weight: " << key[i] << std::endl;
@@ -197,7 +168,7 @@ void ListGraph::dijkstrasAlgorithm(int source, int destination)
 		return; //throws error
 
 	std::cout << "\n\nShortest path for adjacency list representation"
-		<< "\n--------------------------------------------------" << std::endl;
+		<< "\n------------------------------------------------" << std::endl;
 
 	while (currentVertex != -1)
 	{
