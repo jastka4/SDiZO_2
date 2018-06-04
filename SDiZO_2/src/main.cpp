@@ -18,6 +18,7 @@ int main()
 	
 	graph->print();
 	graph->primsAlgorithm();
+	graph->kruskalsAlgorithm();
 	graph->dijkstrasAlgorithm(0, 5);
 
 	Graph *graphL = new ListGraph(6, false);
@@ -33,6 +34,7 @@ int main()
 
 	graphL->print();
 	graphL->primsAlgorithm();
+	graphL->kruskalsAlgorithm();
 	graphL->dijkstrasAlgorithm(0, 5);
 	std::cin.get();
 

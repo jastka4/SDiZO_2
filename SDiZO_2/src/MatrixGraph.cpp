@@ -120,6 +120,79 @@ void MatrixGraph::primsAlgorithm()
 	delete[] visited;
 }
 
+void MatrixGraph::kruskalsAlgorithm()
+{
+	size_t i, j;
+	int k, a, b, u, v, count = 1;
+	int min, totalCost = 0;
+	int **cost = new int*[vertexCount];
+	int *parent = new int[vertexCount];
+
+	for (i = 0; i < vertexCount; i++)
+	{
+		parent[i] = 0;
+		cost[i] = new int[vertexCount];
+
+		for (j = 0; j < vertexCount; j++)
+		{
+			if (incidenceMatrix[i][j] == 0)
+				cost[i][j] = INT_MAX;
+			else
+				cost[i][j] = incidenceMatrix[i][j];
+		}
+	}
+
+	std::cout << "\n\nMinimal Spanning Tree for incidence matrix representation (Kruskal's algorithm)"
+		<< "\n--------------------------------------------------------------------------------" << std::endl;
+
+	while (count < vertexCount)
+	{
+		for (i = 0, min = INT_MAX; i < vertexCount; i++)
+		{
+			for (j = 0; j < vertexCount; j++)
+			{
+				if (cost[i][j] < min)
+				{
+					min = cost[i][j];
+					a = u = i;
+					b = v = j;
+				}
+			}
+		}
+
+		u = find(u, parent);
+		v = find(v, parent);
+		if (unify(u, v, parent))
+		{
+			std::cout << "Edge " << a << " -> " << b << " weight: " << min << std::endl;;
+			totalCost += min;
+			count++;
+		}
+		cost[a][b] = cost[b][a] = INT_MAX;
+	}
+	std::cout << "\nTotal cost: " << totalCost;
+
+	for (i = 0; i < vertexCount; i++)
+		delete[] cost[i];
+	delete[] parent;
+}
+
+int MatrixGraph::find(int i, int* parent)
+{
+	while (parent[i])
+		i = parent[i];
+	return i;
+}
+int MatrixGraph::unify(int i, int j, int* parent)
+{
+	if (i != j)
+	{
+		parent[j] = i;
+		return 1;
+	}
+	return 0;
+}
+
 void MatrixGraph::dijkstrasAlgorithm(int source, int destination)
 {
 	if (destination >= vertexCount)

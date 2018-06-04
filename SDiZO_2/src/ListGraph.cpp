@@ -123,6 +123,82 @@ void ListGraph::primsAlgorithm()
 	delete[] key;
 }
 
+void ListGraph::kruskalsAlgorithm()
+{
+	size_t i, j;
+	int k, u, v, count = 1;
+	int min, totalCost = 0;
+	Node **cost = new Node*[vertexCount];
+
+	for (i = 0; i < vertexCount; i++)
+	{
+		cost[i] = new Node[vertexCount];
+
+		Node* node = adjacencyList[i];
+		while (node) {
+			if (node->weight == 0)
+				cost[i]->weight = INT_MAX;
+			else
+				cost[i]->weight = node->weight;
+			cost[i]->next = node->next;
+			cost[i]->vertex = node->vertex;
+
+			node = node->next;
+		}
+	}
+
+	std::cout << "\n\nMinimal Spanning Tree for adjacency list representation (Kruskal's algorithm)"
+		<< "\n------------------------------------------------------------------------------" << std::endl;
+	
+	while (count < vertexCount)
+	{
+		for (i = 0, min = INT_MAX; i < vertexCount; i++)
+		{
+			Node* node = cost[i];
+			while (node)
+			{
+				if (node->weight < min)
+				{
+					min = node->weight;
+					u = i;
+					v = node->vertex;
+				}
+
+				node = node->next;
+			}
+		}
+
+		if (u != v)
+		{
+			std::cout << "Edge " << u << " -> " << v << " weight: " << min << std::endl;;
+			totalCost += min;
+			count++;
+		}
+
+		Node *node = cost[u];
+		while (node)
+		{
+			if (node->vertex == v)
+				node->weight = INT_MAX;
+
+			node = node->next;
+		}
+
+		node = cost[v];
+		while (node)
+		{
+			if (node->vertex == u)
+				node->weight = INT_MAX;
+
+			node = node->next;
+		}
+	}
+	std::cout << "\nTotal cost: " << totalCost;
+	
+	for (i = 0; i < vertexCount; i++)
+		delete[] cost[i];
+}
+
 void ListGraph::dijkstrasAlgorithm(int source, int destination)
 {
 	if (destination >= vertexCount)

@@ -9,6 +9,8 @@ class MatrixGraph :
 	int **incidenceMatrix;
 
 	int minKey(int*, bool*);
+	int find(int, int*);
+	int unify(int, int, int*);
 
 public:
 	MatrixGraph(int, bool);
@@ -18,5 +20,6 @@ public:
 	void addEdge(int, int, int);
 	void removeEdge(int, int);
 	void primsAlgorithm();
+	void kruskalsAlgorithm();
 	void dijkstrasAlgorithm(int, int);
 };
